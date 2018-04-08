@@ -4,6 +4,9 @@ from flask_jwt import JWT
 
 from security import authenticate, identity as identify_function
 
+from resources.team import Team, TeamList
+from resources.player import Player
+
 import datetime
 
 app = Flask(__name__)
@@ -22,7 +25,8 @@ app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
 # app.config['JWT_AUTH_USERNAME_KEY'] = 'id'
 jwt = JWT(app, authenticate, identify_function) #jwt implementation
 
-
+api.add_resource(Team, '/team/<string:name>')
+api.add_resource(TeamList, '/teams', '/teams/<int:division>')
 
 if __name__ == "__main__":
     from db import db

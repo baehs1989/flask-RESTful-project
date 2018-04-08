@@ -3,4 +3,13 @@ from flask_jwt import jwt_required, current_identity
 from models.player import PlayerModel
 
 class User(Resource):
-    pass
+    def get():
+        pass
+
+
+    def post():
+        pass
+
+
+    def delete():
+        pass
