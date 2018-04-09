@@ -1,4 +1,5 @@
 from db import db
+from models.team import TeamModel
 
 class PlayerModel(db.Model):
     __tablename__ = "players"
@@ -16,11 +17,15 @@ class PlayerModel(db.Model):
         self.team_id = team_id
 
     def json(self):
-        return {"name": self.name, "back_number": self.back_number, "team": self.team.name}
+        return {"name": self.name, "back_number": self.back_number, "team_id" : self.team.name}
 
     @classmethod
     def find_by_name(cls, name):
-        return cls.query.filter_by(name=name).first() # SELECT * FROM items WHERE name=name LIMIT 1
+        return cls.query.filter_by(name=name) # SELECT * FROM items WHERE name=name LIMIT 1
+
+    @classmethod
+    def find_by_name_back_number(cls, name, back_number):
+        return cls.query.filter_by(name=name, back_number=back_number)
 
     def save_to_db(self):
         db.session.add(self)

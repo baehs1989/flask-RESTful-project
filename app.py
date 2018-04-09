@@ -27,6 +27,7 @@ jwt = JWT(app, authenticate, identify_function) #jwt implementation
 
 api.add_resource(Team, '/team/<string:name>')
 api.add_resource(TeamList, '/teams', '/teams/<int:division>')
+api.add_resource(Player, '/player/<string:name>')
 
 if __name__ == "__main__":
     from db import db

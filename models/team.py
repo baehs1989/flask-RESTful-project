@@ -14,11 +14,15 @@ class TeamModel(db.Model):
         self.division = division
 
     def json(self):
-        return {"name": self.name, "division": self.division, "players": [player.json() for player in self.players.all()]}
+        return {"team_id": self.id, "name": self.name, "division": self.division, "players": [player.json() for player in self.players.all()]}
 
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name)
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def find_by_division(cls, division):
