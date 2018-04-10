@@ -53,7 +53,6 @@ class Team(Resource):
         return {"message": "Team deleted"}
 
 class TeamList(Resource):
-
     def get(self, division=None):
         if division:
             teams = TeamModel.find_by_division(division)

@@ -21,7 +21,16 @@ class PlayerModel(db.Model):
 
     @classmethod
     def find_by_name(cls, name):
+        print (cls.query.filter_by(name=name))
         return cls.query.filter_by(name=name) # SELECT * FROM items WHERE name=name LIMIT 1
+
+    @classmethod
+    def find_player_in_team(cls, name, team_id, back_number):
+        return cls.query.filter_by(name=name, team_id=team_id, back_number=back_number).first()
+
+    @classmethod
+    def find_by_back_number_in_team(cls, back_number, team_id):
+        return cls.query.filter_by(back_number=back_number, team_id=team_id).first()
 
     @classmethod
     def find_by_name_back_number(cls, name, back_number):
