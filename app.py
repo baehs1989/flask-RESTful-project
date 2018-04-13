@@ -39,6 +39,9 @@ Player
 /player/<int:division>/<string:name>
 /player/<int:division>/<string:team_name>/<string:name>
 
+/players
+/players/<int:division>
+/players/<int:division>/<string:name>
 '''
 api.add_resource(Team, '/team/<string:name>')
 api.add_resource(TeamList, '/teams', '/teams/<int:division>')
