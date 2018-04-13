@@ -11,7 +11,8 @@ class Team(Resource):
         help="This field must be integer"
     )
 
-    def get(self, name):
+    def get(self, name, division=None):
+        '''
         data = Team.parser.parse_args()
         if data['division']:
             team = TeamModel.find_by_name_division(name, data['division'])
@@ -22,9 +23,18 @@ class Team(Resource):
             if teams.count() > 0:
                 return {"teams": [team.json() for team in teams]}
         return {"message" : "Team not found"}, 404
+        '''
+        if division is None:
+            teams = TeamModel.find_by_name(name)
+            if teams.count() > 0:
+                return {"teams" : [team.json() for team in teams]}
+        else:
+            team = TeamModel.find_by_name_division(name, division)
+            if team:
+                return {"teams" : team.json()}
+        return {"message" : "Team not found"}, 404
 
-
-    def post(self, name):
+    def post(self, name, division=None):
         data = Team.parser.parse_args()
 
         if data['division'] is None:
@@ -41,7 +51,7 @@ class Team(Resource):
         return team.json()
 
 
-    def delete(self, name):
+    def delete(self, name, division=None):
         data = Team.parser.parse_args()
 
         if data['division'] is None:

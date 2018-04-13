@@ -43,8 +43,9 @@ Player
 /players/<int:division>
 /players/<int:division>/<string:name>
 '''
-api.add_resource(Team, '/team/<string:name>')
+api.add_resource(Team, '/team/<string:name>', '/team/<int:division>/<string:name>')
 api.add_resource(TeamList, '/teams', '/teams/<int:division>')
+
 api.add_resource(Player, '/player/<string:name>')
 api.add_resource(PlayerList, '/players', '/players/<int:team_id>')
 
