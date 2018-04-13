@@ -46,3 +46,11 @@ class Player(Resource):
         if player:
             player.delete_from_db()
         return {"message":"Player deleted"}
+
+class PlayerList(Resource):
+    def get(self, team_id=None):
+        if team_id:
+            players = PlayerModel.find_by_team_id(team_id)
+        else:
+            players = PlayerModel.query.all()
+        return {"players": [player.json() for player in players]}

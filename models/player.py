@@ -36,6 +36,10 @@ class PlayerModel(db.Model):
     def find_by_name_back_number(cls, name, back_number):
         return cls.query.filter_by(name=name, back_number=back_number)
 
+    @classmethod
+    def find_by_team_id(cls, team_id):
+        return cls.query.filter_by(team_id=team_id)
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
