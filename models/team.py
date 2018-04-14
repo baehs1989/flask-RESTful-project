@@ -7,7 +7,7 @@ class TeamModel(db.Model):
     name = db.Column(db.String(80))
     division = db.Column(db.Integer)
 
-    players = db.relationship('PlayerModel', lazy='dynamic')
+    players = db.relationship('PlayerModel', lazy='dynamic', single_parent=True, cascade="all, delete-orphan")
 
     def __init__(self, name, division):
         self.name = name

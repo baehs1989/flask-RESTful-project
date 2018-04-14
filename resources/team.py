@@ -35,14 +35,16 @@ class Team(Resource):
         return {"message" : "Team not found"}, 404
 
     def post(self, name, division=None):
-        data = Team.parser.parse_args()
-
-        if data['division'] is None:
+        # data = Team.parser.parse_args()
+        #
+        # if data['division'] is None:
+        #     return {"division": "This field can not be blank"}
+        if division is None:
             return {"division": "This field can not be blank"}
 
-        if TeamModel.find_by_name_division(name, data['division']):
-            return {"message" : "{} in division {} already exists".format(name,data['division'])}
-        team = TeamModel(name, data['division'])
+        if TeamModel.find_by_name_division(name, division):
+            return {"message" : "{} in division {} already exists".format(name,division)}
+        team = TeamModel(name, division)
         try:
             team.save_to_db()
         except:
@@ -52,14 +54,20 @@ class Team(Resource):
 
 
     def delete(self, name, division=None):
-        data = Team.parser.parse_args()
-
-        if data['division'] is None:
-            return {"division": "This field can not be blank"}
-
-        store = TeamModel.find_by_name_division(name,data['division'])
-        if store:
-            store.delete_from_db()
+        # data = Team.parser.parse_args()
+        #
+        # if data['division'] is None:
+        #     return {"division": "This field can not be blank"}
+        #
+        # team = TeamModel.find_by_name_division(name,data['division'])
+        # if team:
+        #     team.delete_from_db()
+        # return {"message": "Team deleted"}
+        if division is None:
+            return {"message": "Missing Division variable"}, 404
+        team = TeamModel.find_by_name_division(name,division)
+        if team:
+            team.delete_from_db()
         return {"message": "Team deleted"}
 
 class TeamList(Resource):
