@@ -28,7 +28,6 @@ jwt = JWT(app, authenticate, identify_function) #jwt implementation
 '''
 Team:
 /team/<string:name>
-/team/<int:division>/<string:name>
 
 /teams
 /teams/<int:division>
@@ -36,18 +35,17 @@ Team:
 --------------------------------------------------------------
 Player
 /player/<string:name>
-/player/<int:division>/<string:name>
-/player/<int:division>/<string:team_name>/<string:name>
+/player/<string:team_name><string:name>
 
 /players
 /players/<int:division>
-/players/<int:division>/<string:name>
+/players/<int:team_name>
 '''
-api.add_resource(Team, '/team/<string:name>', '/team/<int:division>/<string:name>')
+api.add_resource(Team, '/team/<string:name>')
 api.add_resource(TeamList, '/teams', '/teams/<int:division>')
 
 api.add_resource(Player, '/player/<string:name>')
-api.add_resource(PlayerList, '/players', '/players/<int:team_id>')
+api.add_resource(PlayerList, '/players', '/players/<string:team_name>', '/players/<int:division>')
 
 if __name__ == "__main__":
     from db import db

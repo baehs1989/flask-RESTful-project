@@ -13,44 +13,62 @@ class Player(Resource):
     )
 
     parser.add_argument(
-        'team_id',
-        type=int,
+        'team_name',
+        type=str,
         required=True,
         help="This field must be integer"
     )
 
-    def get(self, name):
-        players = PlayerModel.find_by_name(name)
-        if players.count() > 0:
-            return {"players": [player.json() for player in players]}
+    def get(self, name, division=None, team_name=None):
+        if team_name is None and division is None:
+            players = PlayerModel.find_by_name(name)
+            if players.count() > 0:
+                return {"players": [player.json() for player in players]}
+        elif team_name is None:
+            print (division)
+        else:
+            team = TeamModel.find_by_name_division(team_name, division)
+            if team:
+                players = PlayerModel.find_by_team_id(team.id)
+                if players.count() > 0:
+                    return {"players": [player.json() for player in players]}
         return {"message": "Player does not exists"}
 
     def post(self, name):
         data = Player.parser.parse_args()
-        if TeamModel.find_by_id(data['team_id']) is None:
+        team = TeamModel.find_by_name(data['team_name'])
+        if team is None:
             return {"message" : "Team does not exist"}
-        if PlayerModel.find_by_back_number_in_team(data['back_number'], data['team_id']):
+
+        if PlayerModel.find_by_back_number_in_team(data['back_number'], team.id):
             return {"message" : "Back number is already taken."}
-        if PlayerModel.find_player_in_team(name, data['team_id'], data['back_number']):
-            return {"message": "Player already exists in this team"}
-        player = PlayerModel(name, **data)
+
+        player = PlayerModel(name, data['back_number'], team.id)
         player.save_to_db()
         return player.json()
 
 
     def delete(self, name):
         data = Player.parser.parse_args()
-        if TeamModel.find_by_id(data['team_id']) is None:
+        team = TeamModel.find_by_name(data['team_name'])
+        if team is None:
             return {"message" : "Team does not exist"}
-        player = PlayerModel.find_player_in_team(name, data['team_id'], data['back_number'])
+
+        player = PlayerModel.find_player_in_team(name, team.id, data['back_number'])
         if player:
             player.delete_from_db()
         return {"message":"Player deleted"}
 
 class PlayerList(Resource):
-    def get(self, team_id=None):
-        if team_id:
-            players = PlayerModel.find_by_team_id(team_id)
-        else:
+    def get(self, team_name=None, division=None):
+        if team_name is None and division is None:
             players = PlayerModel.query.all()
-        return {"players": [player.json() for player in players]}
+        else:
+            team = TeamModel.find_by_name(team_name)
+            if team:
+                players = PlayerModel.find_by_team_id(team.id)
+            else:
+                players = PlayerModel.find_by_division(division)
+
+
+        return {"players" : [player.json() for player in players]}

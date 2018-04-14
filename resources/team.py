@@ -7,11 +7,11 @@ class Team(Resource):
     parser.add_argument(
         'division',
         type=int,
-        required=False,
+        required=True,
         help="This field must be integer"
     )
 
-    def get(self, name, division=None):
+    def get(self, name):
         '''
         data = Team.parser.parse_args()
         if data['division']:
@@ -24,27 +24,17 @@ class Team(Resource):
                 return {"teams": [team.json() for team in teams]}
         return {"message" : "Team not found"}, 404
         '''
-        if division is None:
-            teams = TeamModel.find_by_name(name)
-            if teams.count() > 0:
-                return {"teams" : [team.json() for team in teams]}
-        else:
-            team = TeamModel.find_by_name_division(name, division)
-            if team:
-                return {"teams" : team.json()}
+        team = TeamModel.find_by_name(name)
+        if team:
+            return {"teams" : team.json()}
         return {"message" : "Team not found"}, 404
 
     def post(self, name, division=None):
-        # data = Team.parser.parse_args()
-        #
-        # if data['division'] is None:
-        #     return {"division": "This field can not be blank"}
-        if division is None:
-            return {"division": "This field can not be blank"}
+        data = Team.parser.parse_args()
 
-        if TeamModel.find_by_name_division(name, division):
-            return {"message" : "{} in division {} already exists".format(name,division)}
-        team = TeamModel(name, division)
+        if TeamModel.find_by_name(name):
+            return {"message" : "{} already exists".format(name)}
+        team = TeamModel(name, data['division'])
         try:
             team.save_to_db()
         except:
@@ -53,7 +43,7 @@ class Team(Resource):
         return team.json()
 
 
-    def delete(self, name, division=None):
+    def delete(self, name):
         # data = Team.parser.parse_args()
         #
         # if data['division'] is None:
@@ -63,9 +53,7 @@ class Team(Resource):
         # if team:
         #     team.delete_from_db()
         # return {"message": "Team deleted"}
-        if division is None:
-            return {"message": "Missing Division variable"}, 404
-        team = TeamModel.find_by_name_division(name,division)
+        team = TeamModel.find_by_name(name)
         if team:
             team.delete_from_db()
         return {"message": "Team deleted"}

@@ -10,14 +10,16 @@ class PlayerModel(db.Model):
 
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
     team = db.relationship('TeamModel')
+    division = db.Column(db.Integer)
 
     def __init__(self, name, back_number, team_id):
         self.name = name
         self.back_number = back_number
         self.team_id = team_id
+        self.division = TeamModel.find_by_id(team_id).division
 
     def json(self):
-        return {"name": self.name, "back_number": self.back_number, "team_id" : self.team.name}
+        return {"name": self.name, "back_number": self.back_number, "team_id" : self.team.name, "division": self.division}
 
     @classmethod
     def find_by_name(cls, name):
@@ -39,6 +41,10 @@ class PlayerModel(db.Model):
     @classmethod
     def find_by_team_id(cls, team_id):
         return cls.query.filter_by(team_id=team_id)
+
+    @classmethod
+    def find_by_division(cls, division):
+        return cls.query.filter_by(division=division)
 
     def save_to_db(self):
         db.session.add(self)
