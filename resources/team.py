@@ -42,7 +42,7 @@ class Team(Resource):
 
         return team.json()
 
-
+    @jwt_required()
     def delete(self, name):
         # data = Team.parser.parse_args()
         #

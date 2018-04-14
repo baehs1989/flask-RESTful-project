@@ -21,8 +21,8 @@ class TeamModel(db.Model):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
 
     @classmethod
     def find_by_division(cls, division):

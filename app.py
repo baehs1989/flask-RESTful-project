@@ -6,6 +6,7 @@ from security import authenticate, identity as identify_function
 
 from resources.team import Team, TeamList
 from resources.player import Player, PlayerList
+from resources.user import UserRegister
 
 import datetime
 
@@ -46,6 +47,8 @@ api.add_resource(TeamList, '/teams', '/teams/<int:division>')
 
 api.add_resource(Player, '/player/<string:name>')
 api.add_resource(PlayerList, '/players', '/players/<string:team_name>', '/players/<int:division>')
+
+api.add_resource(UserRegister, '/register')
 
 if __name__ == "__main__":
     from db import db

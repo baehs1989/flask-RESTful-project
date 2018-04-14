@@ -54,7 +54,7 @@ class Player(Resource):
         player.save_to_db()
         return player.json()
 
-
+    @jwt_required()
     def delete(self, name):
         data = Player.parser.parse_args()
         team = TeamModel.find_by_name(data['team_name'])
