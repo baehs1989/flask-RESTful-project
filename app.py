@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, render_template
 from flask_restful import Api
 from flask_jwt import JWT
 
@@ -42,6 +42,11 @@ Player
 /players/<int:division>
 /players/<int:team_name>
 '''
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 api.add_resource(Team, '/team/<string:name>')
 api.add_resource(TeamList, '/teams', '/teams/<int:division>')
 
