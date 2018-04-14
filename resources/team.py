@@ -58,6 +58,20 @@ class Team(Resource):
             team.delete_from_db()
         return {"message": "Team deleted"}
 
+    def put(self, name):
+        data = Team.parser.parse_args()
+
+        team = TeamModel.find_by_name(name)
+
+        if team is None:
+            team = TeamModel(name, data['division'])
+        else:
+            team.division = data['division']
+
+        team.save_to_db()
+
+        return team.json()
+
 class TeamList(Resource):
     def get(self, division=None):
         if division:

@@ -19,6 +19,13 @@ class Player(Resource):
         help="This field must be integer"
     )
 
+    parser.add_argument(
+        'new_back_number',
+        type=str,
+        required=False,
+        help="This field must be integer"
+    )
+
     def get(self, name, division=None, team_name=None):
         if team_name is None and division is None:
             players = PlayerModel.find_by_name(name)
@@ -58,6 +65,31 @@ class Player(Resource):
         if player:
             player.delete_from_db()
         return {"message":"Player deleted"}
+
+    def put(self, name):
+        data = Player.parser.parse_args()
+
+        team = TeamModel.find_by_name(data['team_name'])
+        if team is None:
+            return {"message" : "Team does not exist"}
+
+        if PlayerModel.find_by_back_number_in_team(data['new_back_number'], team.id):
+            return {"message" : "Back number is already taken."}
+
+        player = PlayerModel.find_player_in_team(name, team.id, data['back_number'])
+
+        if player is None:
+            return {"message" : "Player doesn not exist"}
+        else:
+            if data['new_back_number'] is None:
+                return {"message" : "New Back Number is missing"}
+            player.back_number = data['new_back_number']
+
+
+        player.save_to_db()
+
+        return player.json()
+
 
 class PlayerList(Resource):
     def get(self, team_name=None, division=None):
