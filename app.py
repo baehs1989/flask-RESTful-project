@@ -24,6 +24,12 @@ app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
 # app.config['JWT_AUTH_USERNAME_KEY'] = 'id'
 jwt = JWT(app, authenticate, identify_function) #jwt implementation
 
+# 
+# #DB tables created in first call NEED TO BE DELETED in LIVE
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
+
 '''
 Team:
 /team/<string:name>
