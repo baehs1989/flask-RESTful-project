@@ -19,7 +19,7 @@ class PlayerModel(db.Model):
         self.division = TeamModel.find_by_id(team_id).division
 
     def json(self):
-        return {"name": self.name, "back_number": self.back_number, "team_id" : self.team.name, "division": self.division}
+        return {"name": self.name, "back_number": self.back_number, "team_name" : self.team.name, "division": self.division}
 
     @classmethod
     def find_by_name(cls, name):
