@@ -16,10 +16,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'alexhyungsoobae'
 api = Api(app)
 
-#DB tables created in first call
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 app.config['JWT_AUTH_URL_RULE'] = '/get_token' #if you want to use /login instead of /auth(Default)
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
