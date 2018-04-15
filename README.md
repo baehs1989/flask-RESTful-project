@@ -1,6 +1,9 @@
 URLs
 ../register
+  - register user in the system. Must pass "username" and "password" in JSON
+
 ../get_token
+  - will return JWT token if registered "username" and correct "password" passed in JSON format.
 
 ../team/<string:name>
   - GET: return JSON with the team info/ player list
@@ -10,6 +13,7 @@ URLs
 
 ../teams
   - GET: return all teams in JSON format
+
 ../teams/<int:division>
   - GET: return all teams in the division in JSON format
 
@@ -21,7 +25,9 @@ URLs
 
 ../players
   - GET: return all players in JSON format
+
 ../players/<int:division>
   - GET: return all players participated in the division in JSON format
+
 ../players/<int:team_name>
   - GET: return all players in the team.
