@@ -1,26 +1,63 @@
-<html>
-<head>
-<script type="text/javascript">
-	function httpGetAsync(theUrl, callback) {
-	    var xmlHttp = new XMLHttpRequest();
-	    xmlHttp.onreadystatechange = function() {
-	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-	            callback(xmlHttp.responseText);
-	    }
-	    xmlHttp.open("GET", theUrl, true); // true for asynchronous
-	    xmlHttp.send(null);
-	}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript">
 
-	httpGetAsync('http://127.0.0.1:5000/teams', function(response){
-		alert(response);
-	})
-</script>
-</head>
-<body>
 
-<div id="myElement">
-	Hello, world!
-</div>
 
-</body>
+      $(document).ready(function(){
+        function httpGetAsync(theUrl, callback) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    callback(xmlHttp.responseText);
+            }
+            xmlHttp.open("GET", theUrl, true); // true for asynchronous
+            xmlHttp.send(null);
+        }
+
+        httpGetAsync('http://127.0.0.1:5000/teams', function(response){
+          // alert(response)
+          // var obj = JSON.parse(response)
+          // alert(obj)
+          // var str = JSON.stringify(obj);
+          // alert(str["teams"])
+          // alert(typeof "" === response)
+          // alert(response)
+          var object = JSON.parse(response);
+          // var str = JSON.stringify(object);
+          // alert(object["teams"][1]["name"]);
+          // alert(object["teams"][0]["division"]);
+          // alert(object["teams"][0]["name"]);
+          var block = ""
+          for (var team in object["teams"]) {
+            var team_name = object["teams"][team]["name"]
+            var division = object["teams"][team]["division"]
+            block = block+ "<div style='border:1px solid'>" + "Team Name: " + team_name + "<br/>" + "Division: " + division + "</br>" + "Players: " + "<br/><ul>"
+            for (var player in object["teams"][team]["players"]){
+              block = block + "<li>" + object["teams"][team]["players"][player]["name"] + "(Jersey#: " + object["teams"][team]["players"][player]["back_number"] + ")</li>"
+              // alert(object["teams"][team]["players"][player]["name"])
+              // block = block + "<li>" + object["teams"][team]["players"][player]["name"] + "</li>"
+            }
+            block = block + "</ul></div>"
+
+          }
+          $("div#myElement").append(block);
+        })
+
+      });
+    </script>
+
+    <title>API Project#1</title>
+  </head>
+  <body>
+    <div style="text-align:center">
+      <h3>These are the lists of teams/players in the current database.</h3>
+    </div>
+    <div id="myElement" style="width:50%;margin:auto">
+    </div>
+  </body>
 </html>
