@@ -1,9 +1,10 @@
 URLs
 ../register
-  - register user in the system. Must pass "username" and "password" in JSON
+  - POST: register user in the system. Must pass "username" and "password" in JSON
 
 ../get_token
-  - will return JWT token if registered "username" and correct "password" passed in JSON format.
+  - POST: will return JWT token if registered "username" and its correct "password" passed in JSON format.
+  - You will need to include valid JWT token to request DELETE calls.
 
 ../team/<string:name>
   - GET: return JSON with the team info/ player list
