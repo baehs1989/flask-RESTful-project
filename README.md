@@ -1,34 +1,33 @@
-URLs
-../register
-  - POST: register user in the system. Must pass "username" and "password" in JSON
+URLs for API
+- /register
+  - POST (create user. Must pass "username" and "password" in JSON)
 
-../get_token
-  - POST: will return JWT token if registered "username" and its correct "password" passed in JSON format.
-  - You will need to include valid JWT token to request DELETE calls.
+- /get_token
+  - POST (return JWT token if registered "username" and "password" in JSON)
 
-../team/<string:name>
-  - GET: return JSON with the team info/ player list
-  - POST: create the team. Must send JSON with "division" variable
-  - PUT: Update or create the team. Must send JSON with "division" variable
-  - DELETE : delete the team. JWT token required
+- /team/<team_name>
+  - GET (return team info and player list)
+  - POST (create team. "division" number must be included in JSON)
+  - PUT (Update or create team. "division" number must be included in JSON)
+  - DELETE (delete team. JWT token required)
 
-../teams
-  - GET: return all teams in JSON format
+- /teams
+  - GET: list all teams
 
-../teams/<int:division>
-  - GET: return all teams in the division in JSON format
+- /teams/<division_number>
+  - GET: list all teams in division
 
-../player/<string:name>
-  - GET: return the players with the name in JSON
-  - POST: create the player. Must send JSON with "back_number", "team_name"
-  - DELETE: delete the player. Must send JSON with "back_number", "team_name"
-  - PUT: Update the player's back number. Must send JSON with "back_number", "team_name", and "new_back_number"
+- /player/<player_name>
+  - GET: list all players with <player_name>
+  - POST: create player. "back_number" and "team_name" must be included in JSON
+  - DELETE: delete player. "back_number" and "team_name" must be included in JSON
+  - PUT: update player's back number. "back_number, "team_name" and "new_back_number" must be included in JSON
 
-../players
-  - GET: return all players in JSON format
+- /players
+  - GET: list all players
 
-../players/<int:division>
-  - GET: return all players participated in the division in JSON format
+- /players/<division_number>
+  - GET: list all players in the division
 
-../players/<int:team_name>
-  - GET: return all players in the team.
+- /player/<team_name>
+  - GET: list all players in the team
