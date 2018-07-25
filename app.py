@@ -15,7 +15,7 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'alexhyungsoobae'
+app.secret_key = os.environ.get('APP_KEY')
 api = Api(app)
 
 
@@ -24,7 +24,7 @@ app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(seconds=1800)
 # app.config['JWT_AUTH_USERNAME_KEY'] = 'id'
 jwt = JWT(app, authenticate, identify_function) #jwt implementation
 
-# 
+#
 # #DB tables created in first call NEED TO BE DELETED in LIVE
 # @app.before_first_request
 # def create_tables():
