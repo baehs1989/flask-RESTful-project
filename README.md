@@ -1,6 +1,8 @@
-<h1>Sports Team Roster Management API<h1> 
+<h1>Sports Team Roster Management API
 <br/>  
 https://flaskrestful-api.herokuapp.com/
+</h1> 
+
 
 URLs for API
 - /register
